@@ -1,0 +1,7 @@
+python-telegram-bot == 14
+python-dotenv
+requests == 2.31.0
+pytelegraf == 0.3.3
+pymongo == 4.6.1
+json_utils == 0.2
+openai
