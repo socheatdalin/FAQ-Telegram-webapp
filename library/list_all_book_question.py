@@ -13,5 +13,3 @@ async def list_all_book_questions(update: Update, context: ContextTypes.DEFAULT_
                 bookIndexes.append(index)
     render_questions = InlineKeyboardMarkup([keyboard[i] for i in bookIndexes])
     await update.message.reply_photo(photo="./library/library_images/meetingRoom.jpg", caption="🚀 Welcome to Institute of Technology of Cambodia Library's book!\n\n☺ Please select the question for more details:", reply_markup=render_questions)
-    # await update.message.reply_text("List of Questions:", reply_markup=render_questions)
-    

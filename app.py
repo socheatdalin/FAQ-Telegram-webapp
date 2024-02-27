@@ -31,9 +31,8 @@ from library.list_all_library_question import list_all_library_questions
 from library.library_answer_button import button_click_answer_library_handler
 from library.book_answer_button import button_click_answer_book
 from library.list_all_book_question import list_all_book_questions
-# from library.list_all_room_question import list_all_room_questions
-# from library.library_answer_button import button_click_answer_room_handler
-# from library.library_answer_button import button_click_answer_book_handler
+from library.list_all_room_question import list_all_room_questions
+from library.room_answer_button import button_click_answer_room_handler
 
 # call dotenv file before access values
 load_dotenv()
@@ -48,10 +47,10 @@ BOT_USERNAME = os.getenv('BOT_USERNAME')
 app = Flask(__name__)
 CORS(app)
 
-UPLOAD_FOLDER='/school/school_images'
+UPLOAD_FOLDER='school\school_images'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-IMAGE_FOLDER='/library/library_images'
+IMAGE_FOLDER='library\library_images'
 app.config['IMAGE_FOLDER'] = IMAGE_FOLDER
 
 client = MongoClient(DATABASE, tlsAllowInvalidCertificates=True)
@@ -139,6 +138,11 @@ def delete_item(item_id):
 
     return jsonify(response)
 
+async def callBack_handler(update: Update, context: CallbackContext):
+    # Extracting the callback query from the update
+    query = update.callback_query
+    if query.data == 'start':
+        await query.message.answer(start_command)
     
     
 
@@ -151,19 +155,17 @@ if __name__ == '__main__':
 #     app.add_handler(CommandHandler('building', list_all_building_questions))
 #     app.add_handler(CommandHandler('department', list_all_department_questions))
 
-
     # app.add_handler(CommandHandler('book', list_all_book_detail))
-    # app.add_handler(CommandHandler('room', list_all_room_questions))
     app.add_handler(CommandHandler('library', list_all_library_questions))
-    # app.add_handler(CommandHandler('room', list_all_room_questions))
+    app.add_handler(CommandHandler('room', list_all_room_questions))
     app.add_handler(CommandHandler('book', list_all_book_questions))
     app.add_handler(CallbackQueryHandler(button_click_answer_library_handler, pattern=r'^library_qa_'))
-    # app.add_handler(CallbackQueryHandler(button_click_answer_room_handler, pattern=r'^room_qa_'))
+    app.add_handler(CallbackQueryHandler(button_click_answer_room_handler, pattern=r'^room_qa_'))
     app.add_handler(CallbackQueryHandler(button_click_answer_book, pattern=r'^book_qa_'))
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
-    
+
     app.add_handler(CallbackQueryHandler(button_click_answer))
-    
+    # app.add_handler(CallbackQueryHandler(callBack_handler))
 
     app.add_error_handler(error)    
     app.run_polling(poll_interval=3)

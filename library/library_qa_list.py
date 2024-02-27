@@ -16,4 +16,5 @@ def library_qa_list(collection):
         if 'type' in value:
             types.append(value['type'])
        
-    return {'questions': questions, 'answers': answers, 'types': types}
+    return {'questions': questions, 'answers': answers, 'types': types }
+
