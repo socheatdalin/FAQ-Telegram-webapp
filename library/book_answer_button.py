@@ -26,14 +26,18 @@ async def button_click_answer_book(update: Update, context: ContextTypes.DEFAULT
                     if file_path:
                         with open(file_path, 'rb') as photo_file:
                             media.append(InputMediaPhoto(media=photo_file))
+           
             await query.answer(text="Query processed.")
-    # keyboard = [
-    #     [InlineKeyboardButton("Previous", callback_data="previous"),
-    #      InlineKeyboardButton("Next", callback_data="next")]
-    # ]
+            keyboard = [
+                [InlineKeyboardButton("start", callback_data=f"start"),
+                 InlineKeyboardButton("library", callback_data="library_qa")]
+            ]
 
-    # reply_markup = InlineKeyboardMarkup(keyboard)
+            reply_markup = InlineKeyboardMarkup(keyboard)
 
     # # Send the media group with the custom inline keyboard
-    # # await context.bot.send_media_group(chat_id=query.message.chat_id, media=media, reply_markup=reply_markup, disable_notification=True)
+            
             await context.bot.send_media_group(chat_id=query.message.chat_id,caption=f"🤔 <b>Question:</b> {value}\n\n🤖 <b>Answer:</b> {answer}",media=media, parse_mode="HTML")
+            await context.bot.send_photo(chat_id=query.message.chat_id,photo="./library/library_images/welcome.png", caption="👋 Welcome to our Telegram chat bot! We're thrilled to have you on board and ready to explore the exciting possibilities that await. Whether you're here for information, assistance, our bot is here to make your experience enjoyable.\n\n🚀 To get started, check out the following commands our bot:\nSchool: /school\nLibrary: /library\n\n🌈 Thank you for joining us on this adventure! Your curiosity and engagement drive us to continually improve and enhance your experience. If you have any feedback or suggestions, we're all ears—just drop us a message.\n🤖 Happy chatting, and may your interactions with our bot be both informative and entertaining! Let the conversation begin! 🤖✨")
+
+            # await context.bot.send_message(chat_id=query.message.chat_id,text="Returning to the start...", reply_markup=reply_markup)

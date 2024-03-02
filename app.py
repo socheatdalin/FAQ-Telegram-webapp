@@ -11,10 +11,10 @@ import ast
 from flask_cors import CORS
 from bson import ObjectId
 from werkzeug.utils import secure_filename
-
+import tkinter as tk
 # Import files to app
 #school
-from start_command import start_command
+from start_command import start_command 
 from school.add_school_question import add_school_question
 # from school.school_qa_list import school_qa_list
 from school.list_all_school_question import list_all_school_questions
@@ -28,7 +28,7 @@ from handle_message import handle_message
 from library.library_qa_list import library_qa_list 
 from library.add_library_question import add_library_question
 from library.list_all_library_question import list_all_library_questions
-from library.library_answer_button import button_click_answer_library_handler
+from library.library_answer_button import button_click_answer_library_handler 
 from library.book_answer_button import button_click_answer_book
 from library.list_all_book_question import list_all_book_questions
 from library.list_all_room_question import list_all_room_questions
@@ -138,12 +138,12 @@ def delete_item(item_id):
 
     return jsonify(response)
 
-async def callBack_handler(update: Update, context: CallbackContext):
-    # Extracting the callback query from the update
-    query = update.callback_query
-    if query.data == 'start':
-        await query.message.answer(start_command)
-    
+# async def callBack_handler(update: Update, context: CallbackContext):
+#     # Extracting the callback query from the update
+#     query = update.callback_query
+#     if query.data == 'start':
+#         await query.message.answer(start_command)
+
     
 
 if __name__ == '__main__':
@@ -163,9 +163,9 @@ if __name__ == '__main__':
     app.add_handler(CallbackQueryHandler(button_click_answer_room_handler, pattern=r'^room_qa_'))
     app.add_handler(CallbackQueryHandler(button_click_answer_book, pattern=r'^book_qa_'))
     app.add_handler(MessageHandler(filters.TEXT, handle_message))
-
+    # app.add_handler(MessageHandler(filters.TEXT, handle_message_AI))
     app.add_handler(CallbackQueryHandler(button_click_answer))
-    # app.add_handler(CallbackQueryHandler(callBack_handler))
+    # app.add_handler(CallbackQueryHandler(button_click_handler))
 
     app.add_error_handler(error)    
     app.run_polling(poll_interval=3)

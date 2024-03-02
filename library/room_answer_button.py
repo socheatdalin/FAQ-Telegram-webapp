@@ -1,4 +1,4 @@
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto
+from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, InputMediaPhoto, InlineQueryResultPhoto
 from telegram.ext import  ContextTypes
 from library.library_qa_list import library_qa_list
 from library.database_library import library_database_collection, image_database_collection
@@ -26,14 +26,13 @@ async def button_click_answer_room_handler(update: Update, context: ContextTypes
                     if file_path:
                         with open(file_path, 'rb') as photo_file:
                             media.append(InputMediaPhoto(media=photo_file))
+                # photos = [InlineQueryResultPhoto(id=str(index), photo_url=media[index].media, thumb_url=media[index].media) for index in range(len(media))]
             await query.answer(text="Query processed.")
             keyboard = [
-                [InlineKeyboardButton("Previous", callback_data="previous"),
-                InlineKeyboardButton("Next", callback_data="next")]
-            ]
+                    [InlineKeyboardButton("start", callback_data=f"start"),
+                    InlineKeyboardButton("library", callback_data="library_qa")]
+                    ]
 
             reply_markup = InlineKeyboardMarkup(keyboard)
-
-    # Send the media group with the custom inline keyboard
-    # # await context.bot.send_media_group(chat_id=query.message.chat_id, media=media, reply_markup=reply_markup, disable_notification=True)
-            await context.bot.send_media_group(chat_id=query.message.chat_id,caption=f"🤔 <b>Question:</b> {value}\n\n🤖 <b>Answer:</b> {answer}",media=media, parse_mode="HTML")
+            await context.bot.send_media_group(chat_id=query.message.chat_id, caption=f"🤔 <b>Question:</b> {value}\n\n🤖 <b>Answer:</b> {answer}", media=media, parse_mode="HTML")            
+            await context.bot.send_message(chat_id=query.message.chat_id,text="Returning to the start...", reply_markup=reply_markup)
